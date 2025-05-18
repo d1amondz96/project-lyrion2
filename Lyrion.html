@@ -540,6 +540,17 @@
       });
     }
 
+      const router = createBrowserRouter([
+    {
+        path: "/",
+        element: Home(),
+    },
+    {
+        path: '/project-lyrion2',
+        element: Test(),
+    }
+]);
+
     // Clear active sidebar link (unchanged) :contentReference[oaicite:26]{index=26}:contentReference[oaicite:27]{index=27}
     function clearActiveLink() {
       const links = document.querySelectorAll('.sidebar a');
