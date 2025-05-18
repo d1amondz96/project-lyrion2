@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)https://lyriondev.netlify.app/# -->
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyrion</title>
+
+  <!-- Loader & CSS (unchanged) -->
+  <script src="./Lyrion_files/loader.min.js.download"></script>
+  <link href="./Lyrion_files/css2" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #1a1a1a;
+      color: #fff;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .form-container {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 5px;
+      width: 100%;
+      max-width: 300px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .form-container h2 {
+      color: #ffd700;
+      text-align: center;
+      margin-bottom: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+    .form-container input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #333;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 14px;
+      font-family: 'Montserrat', sans-serif;
+      box-sizing: border-box;
+    }
+    .form-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #ffd700;
+      border: none;
+      border-radius: 5px;
+      color: #000;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+    .form-container button:hover {
+      background-color: #ffeb3b;
+    }
+
+    .sidebar {
+      width: 200px;
+      background-color: #0d0d0d;
+      padding: 20px;
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    }
+    .sidebar h1 {
+      color: #ffd700;
+      margin: 0 0 30px 0;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .sidebar a {
+      color: #ffd700;
+      text-decoration: none;
+      margin-bottom: 15px;
+      font-size: 16px;
+      transition: color 0.3s ease;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .sidebar a:hover {
+      color: #ffeb3b;
+      text-decoration: underline;
+    }
+    .sidebar a.active {
+      color: #ffeb3b;
+      font-weight: 700;
+    }
+    .sidebar .user-info {
+      margin-top: auto;
+      font-size: 12px;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .sidebar .user-info span {
+      display: block;
+      margin-bottom: 5px;
+      color: #fff;
+    }
+
+    .editor-container, .script-hub-container, .games-container {
+      display: none;
+      flex: 1;
+      padding: 20px;
+      background-color: #222;
+      flex-direction: column;
+      gap: 15px;
+    }
+    #editor {
+      flex: 1;
+      border: 1px solid #333;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .buttons button {
+      padding: 10px 20px;
+      background-color: #333;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+    .buttons button:hover {
+      background-color: #ffd700;
+      color: #000;
+    }
+
+    .script-hub-container h2, .games-container h2 {
+      color: #ffd700;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .script-hub-container .script-item, .games-container .game-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background-color: #333;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .script-hub-container .script-item span,
+    .games-container .game-item span {
+      flex: 1;
+      font-size: 14px;
+      font-family: 'Montserrat', sans-serif;
+      color: #fff;
+    }
+    .script-hub-container .script-item button,
+    .games-container .game-item button {
+      padding: 8px 16px;
+      background-color: #ffd700;
+      border: none;
+      border-radius: 5px;
+      color: #000;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+    .script-hub-container .script-item button:hover,
+    .games-container .game-item button:hover {
+      background-color: #ffeb3b;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+        overflow-y: auto;
+      }
+      .container {
+        padding: 10px;
+      }
+      .form-container {
+        max-width: 90%;
+      }
+      .form-container input {
+        font-size: 16px;
+      }
+      .form-container button {
+        font-size: 16px;
+        padding: 12px;
+      }
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 10px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .sidebar h1 {
+        font-size: 20px;
+        margin: 0 10px 0 0;
+      }
+      .sidebar a {
+        font-size: 14px;
+        margin: 5px 10px;
+      }
+      .sidebar .user-info {
+        font-size: 10px;
+        margin: 5px 10px;
+        margin-left: auto;
+      }
+      .editor-container, .script-hub-container, .games-container {
+        padding: 10px;
+      }
+      #editor {
+        min-height: 50vh;
+      }
+      .buttons {
+        flex-direction: column;
+        gap: 5px;
+      }
+      .buttons button {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+      }
+      .script-hub-container .script-item,
+      .games-container .game-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .script-hub-container .script-item button,
+      .games-container .game-item button {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+      }
+    }
+  </style>
+
+  <!-- Monaco Editor core files (unchanged) -->
+  <script async="async" type="text/javascript" src="./Lyrion_files/editor.main.js.download"></script>
+  <link rel="stylesheet" type="text/css" data-name="vs/editor/editor.main" href="./Lyrion_files/editor.main.css">
+  <script async="async" type="text/javascript" src="./Lyrion_files/editor.main.nls.js.download"></script>
+</head>
+
+<body>
+  <!-- LOGIN FORM -->
+  <div class="container" id="auth-container">
+    <div class="form-container" id="login-form">
+      <h2>Login</h2>
+      <input type="text" id="login-username" placeholder="Username" required="">
+      <input type="password" id="login-password" placeholder="Password" required="">
+      <button onclick="handleLogin()">Login</button>
+    </div>
+  </div>
+
+  <!-- SIDEBAR (hidden until login) -->
+  <div class="sidebar" id="sidebar">
+    <h1>Lyrion</h1>
+    <a href="https://lyriondev.netlify.app/#" onclick="showEditor()">Execution</a>
+    <a href="https://lyriondev.netlify.app/#" onclick="showScriptHub()" id="script-hub-link" style="display: none;">Script-Hub</a>
+    <a href="https://lyriondev.netlify.app/#" onclick="showGames()">Games</a>
+    <a href="https://lyriondev.netlify.app/#" onclick="handleLogout()">Logout</a>
+    <div class="user-info">
+      <span id="user-username"></span>
+      <span id="user-plan"></span>
+      <span id="user-expires"></span>
+    </div>
+  </div>
+
+  <!-- EDITOR CONTAINER -->
+  <div class="editor-container" id="editor-container">
+    <div id="editor" data-keybinding-context="1" data-mode-id="lua"
+         style="--codelens-font-features_ee1f61: 'liga' off, 'calt' off;">
+      <!-- The actual Monaco editor instance will be injected here -->
+    </div>
+    <div class="buttons">
+      <button onclick="handleExecute()">Execute</button>
+      <button onclick="handleClear()">Clear</button>
+      <button onclick="handleResetCode()">Reset Code</button>
+    </div>
+  </div>
+
+  <!-- SCRIPT-HUB -->
+  <div class="script-hub-container" id="script-hub-container">
+    <h2>Script-Hub</h2>
+    <div id="script-list"></div>
+  </div>
+
+  <!-- GAMES -->
+  <div class="games-container" id="games-container">
+    <h2>Games</h2>
+    <div id="game-list"></div>
+  </div>
+
+  <!-- UPDATED JAVASCRIPT (with only “thatzd9” / “test1”) -->
+  <script>
+    let editorInstance;
+    let currentUser = null;
+    const SCRIPTS_URL = '/scripts.json';
+    const GAMES_URL = '/games.json';
+
+    // Initialize Monaco Editor
+    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs' } });
+    require(['vs/editor/editor.main'], function () {
+      editorInstance = monaco.editor.create(document.getElementById('editor'), {
+        value: '-- Welcome to Lyrion Editor\nprint("Hello, Lyrion!")',
+        language: 'lua',
+        theme: 'vs-dark',
+        automaticLayout: true,
+        fontSize: 14,
+        minimap: { enabled: false },
+        scrollBeyondLastLine: false,
+      });
+    });
+
+    // Login handler (only “thatzd9” / “test1” will succeed) :contentReference[oaicite:4]{index=4}:contentReference[oaicite:5]{index=5}
+    async function handleLogin() {
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+
+      if (!username || !password) {
+        alert('Please enter both username and password');
+        return;
+      }
+
+      // Check against our single, hard-coded credential pair:
+      if (username === 'thatzd9' && password === 'test1') {
+        currentUser = {
+          username: 'thatzd9',
+          plan: 'Ultimate',         // Give them Ultimate access
+          subscription_expires: null // “Never expires”
+        };
+
+        alert(`Login successful! Welcome, ${currentUser.username} (Plan: ${currentUser.plan})`);
+
+        // Hide login form, show sidebar + editor
+        document.getElementById('auth-container').style.display = 'none';
+        document.getElementById('sidebar').style.display = 'flex';
+        document.getElementById('editor-container').style.display = 'flex';
+        document.getElementById('script-hub-container').style.display = 'none';
+        document.getElementById('games-container').style.display = 'none';
+
+        // Always show Script-Hub link for our one user
+        document.getElementById('script-hub-link').style.display = 'block';
+
+        // Display user info
+        document.getElementById('user-username').textContent = `User: ${currentUser.username}`;
+        document.getElementById('user-plan').textContent = `Plan: ${currentUser.plan}`;
+        document.getElementById('user-expires').textContent = 'Expires: Never';
+
+        // Set “Execution” as the active link
+        setActiveLink('Execution');
+      } else {
+        // Any other combination will be refused
+        alert('Error: Invalid username or password');
+      }
+    }
+
+    // Logout handler (unchanged) :contentReference[oaicite:6]{index=6}:contentReference[oaicite:7]{index=7}
+    function handleLogout() {
+      currentUser = null;
+      document.getElementById('auth-container').style.display = 'flex';
+      document.getElementById('sidebar').style.display = 'none';
+      document.getElementById('editor-container').style.display = 'none';
+      document.getElementById('script-hub-container').style.display = 'none';
+      document.getElementById('games-container').style.display = 'none';
+      document.getElementById('script-hub-link').style.display = 'none';
+      document.getElementById('login-username').value = '';
+      document.getElementById('login-password').value = '';
+      document.getElementById('user-username').textContent = '';
+      document.getElementById('user-plan').textContent = '';
+      document.getElementById('user-expires').textContent = '';
+      clearActiveLink();
+      alert('Logged out successfully');
+    }
+
+    // Show Editor (unchanged) :contentReference[oaicite:8]{index=8}:contentReference[oaicite:9]{index=9}
+    function showEditor() {
+      document.getElementById('editor-container').style.display = 'flex';
+      document.getElementById('script-hub-container').style.display = 'none';
+      document.getElementById('games-container').style.display = 'none';
+      setActiveLink('Execution');
+    }
+
+    // Show Script-Hub (no plan-check—our one user is always “Ultimate”) :contentReference[oaicite:10]{index=10}:contentReference[oaicite:11]{index=11}
+    async function showScriptHub() {
+      document.getElementById('editor-container').style.display = 'none';
+      document.getElementById('script-hub-container').style.display = 'flex';
+      document.getElementById('games-container').style.display = 'none';
+      setActiveLink('Script-Hub');
+
+      try {
+        const response = await fetch(SCRIPTS_URL);
+        if (!response.ok) throw new Error('Failed to fetch scripts');
+        const scripts = await response.json();
+
+        const scriptList = document.getElementById('script-list');
+        scriptList.innerHTML = '';
+        scripts.forEach(script => {
+          const item = document.createElement('div');
+          item.className = 'script-item';
+          item.innerHTML = `
+            <span>${script.name}</span>
+            <button onclick="executeScript('${script.script.replace(/'/g, "\\'")}')">Execute</button>
+          `;
+          scriptList.appendChild(item);
+        });
+      } catch (error) {
+        alert('Error fetching scripts: ' + error.message);
+      }
+    }
+
+    // Show Games (unchanged) :contentReference[oaicite:12]{index=12}:contentReference[oaicite:13]{index=13}
+    async function showGames() {
+      document.getElementById('editor-container').style.display = 'none';
+      document.getElementById('script-hub-container').style.display = 'none';
+      document.getElementById('games-container').style.display = 'flex';
+      setActiveLink('Games');
+
+      try {
+        const response = await fetch(GAMES_URL);
+        if (!response.ok) throw new Error('Failed to fetch games');
+        const games = await response.json();
+
+        const gameList = document.getElementById('game-list');
+        gameList.innerHTML = '';
+        games.forEach(game => {
+          const item = document.createElement('div');
+          item.className = 'game-item';
+          item.innerHTML = `
+            <span>${game.name}</span>
+            <button onclick="playGame('${game.link.replace(/'/g, "\\'")}')">Play</button>
+          `;
+          gameList.appendChild(item);
+        });
+      } catch (error) {
+        alert('Error fetching games: ' + error.message);
+      }
+    }
+
+    // Execute Script (unchanged) :contentReference[oaicite:14]{index=14}:contentReference[oaicite:15]{index=15}
+    function executeScript(script) {
+      editorInstance.setValue(script);
+      showEditor();
+    }
+
+    // Play Game (unchanged) :contentReference[oaicite:16]{index=16}:contentReference[oaicite:17]{index=17}
+    function playGame(link) {
+      window.open(link, '_blank');
+    }
+
+    // Execute button logic (unchanged) :contentReference[oaicite:18]{index=18}:contentReference[oaicite:19]{index=19}
+    async function handleExecute() {
+      if (!currentUser) {
+        alert('Please login to execute code');
+        return;
+      }
+
+      const code = editorInstance.getValue();
+
+      try {
+        const response = await fetch('/.netlify/functions/getCode', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to send code');
+        }
+
+        alert('Code sent to Roblox!');
+      } catch (error) {
+        alert('Error sending code: ' + error.message);
+      }
+    }
+
+    // Clear button logic (unchanged) :contentReference[oaicite:20]{index=20}:contentReference[oaicite:21]{index=21}
+    function handleClear() {
+      editorInstance.setValue('');
+    }
+
+    // Reset Code button logic (unchanged) :contentReference[oaicite:22]{index=22}:contentReference[oaicite:23]{index=23}
+    async function handleResetCode() {
+      try {
+        const response = await fetch('/.netlify/functions/getCode', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: '' }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to reset code');
+        }
+
+        alert('Code reset!');
+      } catch (error) {
+        alert('Error resetting code: ' + error.message);
+      }
+    }
+
+    // Set active sidebar link (unchanged) :contentReference[oaicite:24]{index=24}:contentReference[oaicite:25]{index=25}
+    function setActiveLink(linkText) {
+      const links = document.querySelectorAll('.sidebar a');
+      links.forEach(link => {
+        link.classList.remove('active');
+        if (link.textContent === linkText) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    // Clear active sidebar link (unchanged) :contentReference[oaicite:26]{index=26}:contentReference[oaicite:27]{index=27}
+    function clearActiveLink() {
+      const links = document.querySelectorAll('.sidebar a');
+      links.forEach(link => link.classList.remove('active'));
+    }
+  </script>
+
+  <div class="monaco-aria-container">
+    <div class="monaco-alert" role="alert" aria-atomic="true"></div>
+    <div class="monaco-alert" role="alert" aria-atomic="true"></div>
+    <div class="monaco-status" role="complementary" aria-live="polite" aria-atomic="true"></div>
+    <div class="monaco-status" role="complementary" aria-live="polite" aria-atomic="true"></div>
+  </div>
+</body>
+</html>
